@@ -9,32 +9,33 @@ h2.after(buttonAddBook); // Ajoute le bouton après la balise h2
 buttonAddBook.addEventListener ("click", displayFormular);
 
 
-//##################################### afficage du formulaire ###################################
+//##################################### affichage du formulaire ###################################
+
 function displayFormular() {
-    const h2 = document.querySelector(".h2"); 
-    const searchForm = document.createElement("form");
-    searchForm.id = "searchForm";
-    //ajouter son eventListener ici pour refactorer le code
-    searchForm.addEventListener("submit", (event) => {
-      event.preventDefault(); //sans cette ligne, la page sera redirigé pendant l'exécution du code après, empêchant son bon déroulement
-      const titleValue = document.getElementById("title").value.trim();
-      const authorValue = document.getElementById("author").value.trim();
-      if (titleValue !== "" && authorValue !== "") {
-        const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${titleValue}+inauthor:${authorValue}`;
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            displaySearchResults(); //cette fonction remplacera les lignes ci-dessous pour respecter l'affichage selon le cahier des charges
-            console.log("Résultats de la recherche : ", data.items);
-        alert("Formulaire soumis avec succès ! Titre du livre : " + titleValue + ", Auteur : " + authorValue);
-          })
-          .catch((error) => alert("Une erreur s'est produite : ", error));
-    } else {
-        alert("Veuillez remplir tous les champs !");
-      }
-    
-    });
-    //là le code à refactorer (fin)
+  const h2 = document.querySelector(".h2"); 
+  const searchForm = document.createElement("form");
+  searchForm.id = "searchForm";
+  //ajouter son eventListener ici pour refactorer le code
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault(); //sans cette ligne, la page sera redirigé pendant l'exécution du code après, empêchant son bon déroulement
+    const titleValue = document.getElementById("title").value.trim();
+    const authorValue = document.getElementById("author").value.trim();
+    if (titleValue !== "" && authorValue !== "") {
+      const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${titleValue}+inauthor:${authorValue}`;
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+        //  displaySearchResults(); //cette fonction remplacera les lignes ci-dessous pour respecter l'affichage selon le cahier des charges
+          console.log("Résultats de la recherche : ", data.items);
+      alert("Formulaire soumis avec succès ! Titre du livre : " + titleValue + ", Auteur : " + authorValue);
+        })
+        .catch((error) => console.error("Une erreur s'est produite : ", error));
+  } else {
+      alert("Veuillez remplir tous les champs !");
+    }
+  
+  });
+  //là le code à refactorer (fin)
 
 const titleLabel = document.createElement("label");
 titleLabel.for = "title";
@@ -69,10 +70,10 @@ cancelBtn.value = "Annuler";
 searchForm.appendChild(cancelBtn);
 
 h2.after(searchForm); 
-alert("la fonction displayFormular s'est exécutée");
 buttonAddBook.remove();
 
 };
+
 //#####################################Affichage des resultats ###################################
 /*
 function displaySearchResults(){
@@ -117,4 +118,4 @@ function displayResults(books) {
 }
 }
 
-
+*/
