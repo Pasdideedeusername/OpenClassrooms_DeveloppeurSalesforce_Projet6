@@ -1,3 +1,7 @@
+let imgsrc = "unavailable.png"
+const content = document.getElementById("content"); //récupère la balise content dans index.htlm
+
+
 //##################################### Affichage du bouton ajouter ######################################### 
 
 const buttonAddBook = document.createElement("button"); // Crée un nouvel élément bouton
@@ -11,31 +15,12 @@ buttonAddBook.addEventListener ("click", displayFormular);
 
 //##################################### affichage du formulaire ###################################
 
+const searchForm = document.createElement("form");
+searchForm.id = "searchForm";
+
 function displayFormular() {
-  const h2 = document.querySelector(".h2"); 
-  const searchForm = document.createElement("form");
-  searchForm.id = "searchForm";
-  //ajouter son eventListener ici pour refactorer le code
-  searchForm.addEventListener("submit", (event) => {
-    event.preventDefault(); //sans cette ligne, la page sera redirigé pendant l'exécution du code après, empêchant son bon déroulement
-    const titleValue = document.getElementById("title").value.trim();
-    const authorValue = document.getElementById("author").value.trim();
-    if (titleValue !== "" && authorValue !== "") {
-      const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${titleValue}+inauthor:${authorValue}`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-        //  displaySearchResults(); //cette fonction remplacera les lignes ci-dessous pour respecter l'affichage selon le cahier des charges
-          console.log("Résultats de la recherche : ", data.items);
-      alert("Formulaire soumis avec succès ! Titre du livre : " + titleValue + ", Auteur : " + authorValue);
-        })
-        .catch((error) => console.error("Une erreur s'est produite : ", error));
-  } else {
-      alert("Veuillez remplir tous les champs !");
-    }
-  
-  });
-  //là le code à refactorer (fin)
+
+   //code ci-dessous refactorisable
 
 const titleLabel = document.createElement("label");
 titleLabel.for = "title";
@@ -65,7 +50,7 @@ submitBtn.value = "Rechercher";
 searchForm.appendChild(submitBtn);
 
 const cancelBtn = document.createElement("input");
-cancelBtn.type = "submit";
+cancelBtn.type = "button";
 cancelBtn.value = "Annuler";
 searchForm.appendChild(cancelBtn);
 
@@ -74,16 +59,42 @@ buttonAddBook.remove();
 
 };
 
+//##################################### Recherche de correspondance dans l'API Google books ###################################
+
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault(); //sans cette ligne, la page sera redirigé pendant l'exécution du code, empêchant son bon déroulement
+
+  const titleValue = document.getElementById("title").value.trim();
+  const authorValue = document.getElementById("author").value.trim();
+  if (titleValue !== "" && authorValue !== "") {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${titleValue}+inauthor:${authorValue}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        content.innerHTML = "<H2> Résultats de recherche <br/> <h2>"; // remplace "Ma poch'list" 
+        if (data.totalItems === 0) {
+
+          alert("Aucun livre n'a été trouvé");
+      }
+        data.items.forEach(book => {
+          displaySearchResults(book);
+          })
+
+        console.log("Résultats de la recherche : ", data);
+        
+      })
+      .catch((error) => console.error("Une erreur s'est produite : ", error));
+} else {
+    alert("Veuillez remplir tous les champs !");
+  }
+
+});
+
 //#####################################Affichage des resultats ###################################
-/*
-function displaySearchResults(){
 
 
-const results = document.getElementById("results");
-
-function displayResults(books) {
-  results.innerHTML = ""; // Efface les résultats précédents
-  books.forEach((book) => {
+function displaySearchResults(book) {
+  
     const bookDiv = document.createElement("div");
     bookDiv.classList.add("book");
 
@@ -108,14 +119,15 @@ function displayResults(books) {
     descriptionSpan.innerText = `Description: ${description}`;
     bookDiv.appendChild(descriptionSpan);
 
-    const image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "pas-d-image-disponible.png";
+    const image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "unavailable.png";
     const imageElem = document.createElement("img");
     imageElem.src = image;
     bookDiv.appendChild(imageElem);
 
-    results.appendChild(bookDiv);
-  });
-}
+    content.after(bookDiv); 
+    //bookDiv.innerHTML = ""; // Efface les résultats précédents
+
 }
 
-*/
+
+
