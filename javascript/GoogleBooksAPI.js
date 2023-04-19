@@ -5,8 +5,6 @@ constructor(){
 }
 
 async searchBook(titleValue, authorValue){
-titleValue= "mal";
-authorValue="baudelaire";
     const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${titleValue}+inauthor:${authorValue}`;
     console.log(url)
     return await fetch(url)

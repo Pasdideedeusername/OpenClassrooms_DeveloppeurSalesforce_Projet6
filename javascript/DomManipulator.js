@@ -67,8 +67,8 @@ class DomManipulator {
 
     
     
-    handleClickSearch(){
-       
+    handleClickSearch(event){
+       event.preventDefault();
         const titleValue = document.getElementById("title").value.trim();
         const authorValue = document.getElementById("author").value.trim();
         if (titleValue !== "" && authorValue !== "") {
