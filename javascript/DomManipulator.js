@@ -61,8 +61,8 @@ class DomManipulator {
         cancelBtn.id = "cancelBtn";
         searchForm.appendChild(cancelBtn);
         cancelBtn.addEventListener("click", (event) => {
-         event.preventDefault();
-         location.reload();
+        event.preventDefault();
+        location.reload();
        });
 
 
@@ -88,14 +88,9 @@ class DomManipulator {
         alert("Aucun livre n'a été trouvé");
         }
         console.log (convertGoogleBooksToBooks (data.items))
-        convertGoogleBooksToBooks (data.items); // NEW line // returns books
-        
-
-   /*   RETIRE DEPUIS LA DERNIERE SOUTENANCE - REMPLACE PAR LA LIGNE AU-DESSUS
-        data.items.forEach(book => {
-        displaySearchResults(book); 
-        })
-   */
+        displaySearchResults(convertGoogleBooksToBooks (data.items)); 
+   
+   
         console.log("Résultats de la recherche : ", data);
         
         })
@@ -105,41 +100,4 @@ class DomManipulator {
        };
     }
 
-   displaySearchResults(books) { // CARINE A CONTINUER ET TOUT CORRIGER
-      
-      books.forEach (book => {
-
-      const bookcontainer = document.createElement("div");
-      bookcontainer.classList.add("book");
-  
-      const idSpan = document.createElement("span");
-      idSpan.innerText = book.id;
-      bookcontainer.appendChild(idSpan);
-  
-      const bookTitle = document.createElement("h3");
-      bookTitle.textContent = book.title;
-      bookcontainer.appendChild(bookTitle);
-  
-      const bookAuthor = document.createElement("span");
-      bookAuthor.innerText = book.authors;
-      bookcontainer.appendChild(bookAuthor);
-  
-      const bookmarkIcon = document.createElement("i");
-      bookmarkIcon.classList.add("fas", "fa-bookmark");
-      bookcontainer.appendChild(bookmarkIcon);
-  
-      const bookDescriptionSpan = document.createElement("p");
-      bookDescriptionSpan.textContent = book.description;
-      bookcontainer.appendChild(bookDescriptionSpan);
-  
-      const bookIimage = document.createElement("img");
-      bookIimage.src = book.image;
-      bookcontainer.appendChild(bookIimage);
-      
-      const content = document.getElementById("content");
-      content.after(bookcontainer); 
-      //bookcontainer.innerHTML = ""; // Efface les résultats précédents
-      })
-  
-   }
-   }
+}
