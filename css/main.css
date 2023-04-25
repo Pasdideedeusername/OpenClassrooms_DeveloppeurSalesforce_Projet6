@@ -1,19 +1,24 @@
-
-
-/*# sourceMappingURL=main.css.map */
+@charset "UTF-8";
 * {
   text-align: center;
-  }
-body{
-  background-color: lightseagreen;
 }
+
+body {
+  background-color: lightseagreen;
+  font-family: "Dancing Script", cursive;
+}
+
 h1 {
   background-color: white;
 }
 
+h2 {
+  text-shadow: 3px 3px 3px grey;
+}
+
 #searchForm {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   text-align: left;
 }
 
@@ -23,6 +28,7 @@ label, input {
   margin-top: 5px;
   text-align: left;
 }
+
 input {
   background-color: aliceblue;
 }
@@ -30,13 +36,32 @@ input {
 #searchBookBtn, #cancelBtn {
   align-items: center;
 }
+
 #searchBookBtn, #cancelBtn, #buttonAddBook {
   width: 130px;
   margin-top: 10px;
-  box-shadow: 3px 3px 3px; 
+  box-shadow: 3px 3px 3px;
 }
-#bookcontainer {
-  display: flex;
-  flex-direction: column; 
 
+.book {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: raw;
+  background-color: whitesmoke;
+  margin: 50px;
 }
+
+.book :hover { /* JE N'EN VEUX PAS ET POURTANT CA MARCHE !!!*/
+  background-color: goldenrod;
+  cursor: pointer; /* ça je veux le mettre sur les bouttons et l'icon mais ça ne marche pas*/
+  transform: scale(1.5);
+}
+
+#bookmarkIcon:hover { /* CA NE MARCHE PAS !!!!*/
+  content: "Ajouter à ma Poch'liste";
+  cursor: pointer;
+  color: red;
+}
+
+/*# sourceMappingURL=main.css.map */
