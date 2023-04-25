@@ -82,13 +82,14 @@ class DomManipulator {
         let googleBookAPI  = new GoogleBooksAPI();
         googleBookAPI.searchBook(titleValue, authorValue )
         .then((data) => {
-        content.innerHTML = "<H2> Résultats de recherche <br/> <h2>"; // remplace "Ma poch'list" 
+        //content.innerHTML = "<H2> Résultats de recherche <br/> <h2>"; // remplace "Ma poch'list" 
         if (data.totalItems === 0) {
 
         alert("Aucun livre n'a été trouvé");
         }
         console.log (convertGoogleBooksToBooks (data.items))
-        displaySearchResults(convertGoogleBooksToBooks (data.items)); 
+        new DomManipulator().displaySearchResults(convertGoogleBooksToBooks (data.items)); 
+        //displaySearchResults(convertGoogleBooksToBooks (data.items)); 
    
    
         console.log("Résultats de la recherche : ", data);
@@ -100,4 +101,50 @@ class DomManipulator {
        };
     }
 
+    displaySearchResults(books) { 
+        
+      const hr = document.createElement("hr")
+      hr.classList.add("hr");
+      const content = document.getElementById("content");
+      content.after (hr);
+      
+    
+      
+      books.forEach (book => {
+    
+      const bookcontainer = document.createElement("div");
+      bookcontainer.classList.add("book");
+    
+      const bookTitle = document.createElement("h3");
+      bookTitle.textContent = "Titre: " + book.title;
+      bookcontainer.appendChild(bookTitle);
+    
+      const idSpan = document.createElement("span");
+      idSpan.innerText = "Id: " + book.id;
+      bookcontainer.appendChild(idSpan);
+    
+      const bookAuthor = document.createElement("span");
+      bookAuthor.innerText = "Auteur: " + book.author;
+      bookcontainer.appendChild(bookAuthor);
+    
+      const bookDescriptionSpan = document.createElement("p");
+      bookDescriptionSpan.textContent = "Description:" + book.description;
+      bookcontainer.appendChild(bookDescriptionSpan);
+    
+      const bookIimage = document.createElement("img");
+      bookIimage.src = book.image;
+      bookcontainer.appendChild(bookIimage);
+      
+      const bookmarkIcon = document.createElement("i");
+      bookmarkIcon.classList.add("fas", "fa-bookmark");
+      bookmarkIcon.addEventListener("click", BookMark.bookmarkIconOnClick.bind(this, book)) 
+      bookcontainer.appendChild(bookmarkIcon);
+    
+    
+      const content = document.getElementById("content");
+      content.before(bookcontainer); 
+    
+      })
+    }
 }
+
