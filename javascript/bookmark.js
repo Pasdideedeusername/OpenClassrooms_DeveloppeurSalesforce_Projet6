@@ -13,24 +13,40 @@ class BookMark {
       };
 
     static  isBookInSessionStorage(bookId) {
-        const readingList = JSON.parse(sessionStorage.getItem("readingList")) || [];
-        return readingList.some(book => book.id === bookId);
-      }
-      
+        return sessionStorage.getItem(bookId)!=null;
+    }
+
     static  addBookToSessionStorage(book) {
-        const readingList = JSON.parse(sessionStorage.getItem("readingList")) || [];
-        readingList.push(book);
-        sessionStorage.setItem("readingList", JSON.stringify(readingList));
+        
+        sessionStorage.setItem(book.id, JSON.stringify(book));
       }
       
     static  addBookToReadingList(book) {
+
+        const bookListItem = document.createElement("div");
+        const displayBookContainer = DisplayBook.displayBook(book);
+        bookListItem.appendChild(displayBookContainer);
+
+        const trashIcon = document.createElement("i");
+        trashIcon.classList.add("fas", "fa-trash");
+        trashIcon.id = ("trashIcon");
+        trashIcon.title = "retirer de ma Poch'list";
+        //trashIcon.addEventListener("click", trashIconOnClick.bind(this, book)) 
+        bookListItem.appendChild(trashIcon);
+        
         const content = document.getElementById("content");
-        const bookListItem = document.createElement("li");
-        bookListItem.textContent = book.title + " - " + book.author; // ATTENTION LA IL FAUT REMETTRE LES INFO COMPLETES DES LIVRES
-        // et remplacer l'icon bookmark par delete
-        content.after(bookListItem);
-        console.log(book);
+        content.appendChild(bookListItem);
        
       } 
+      static trashIconOnClick(book) {
+       bookListItem = document.getElementById();
+      }
 
+      static getBooksFromSessionStorage(){
+        let bookList = []
+        Object.keys(sessionStorage).filter(element=>element.length==12).forEach(element => {
+        bookList.push(JSON.parse(sessionStorage.getItem(element)))
+        });
+        return bookList;
+      }
 }

@@ -17,7 +17,7 @@ class DomManipulator {
    }
   createFormular(){
 
-        const h2 = document.querySelector(".h2"); //récupère la balise h2
+        const h2 = document.querySelector(".h2"); 
         const searchForm = document.createElement("form");
         searchForm.id = "searchForm";
         searchForm.addEventListener("submit", this.handleClickSearch ) 
@@ -27,6 +27,11 @@ class DomManipulator {
    displayFormular() {
 
         let searchForm = document.getElementById ("searchForm");
+        const h2 = document.querySelector(".h2"); 
+        h2.after(searchForm); 
+        let buttonAddBook= document.getElementById ("buttonAddBook")
+        buttonAddBook.remove();
+
         const titleLabel = document.createElement("label");
         titleLabel.for = "title";
         titleLabel.textContent = "Titre du livre* : ";
@@ -54,24 +59,34 @@ class DomManipulator {
         const searchBookBtn = document.createElement("button");
         searchBookBtn.textContent = "Rechercher";
         searchBookBtn.id = "searchBookBtn";
+        searchBookBtn.setAttribute("type","submit");
         searchForm.appendChild(searchBookBtn);
 
         const cancelBtn = document.createElement("button");
         cancelBtn.textContent = "Annuler";
         cancelBtn.id = "cancelBtn";
+        cancelBtn.setAttribute("type", "button")// ligne rajoutée: permet de s'affranchir de event.preventDefault
+        //cancelBtn.setAttribute("type","submit");
+        cancelBtn.addEventListener("click", this.cancelBtnClick);
+        cancelBtn.onclick = this.cancelBtnClick;
         searchForm.appendChild(cancelBtn);
-        cancelBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        location.reload();
-       });
 
-
-        const h2 = document.querySelector(".h2"); //récupère la balise h2
-        h2.after(searchForm); 
-        let buttonAddBook= document.getElementById ("buttonAddBook")
-        buttonAddBook.remove();
-        
         };
+
+    cancelBtnClick(event){ // CA NE FONCTIONNE PLUS DEPUIS QUE LE CODE EST ISOLE EN FONCTION
+        //location.reload();
+        event.preventDefault();
+        alert(" vous avez cliqué sur le boutton annuler");
+        let searchResult = document.getElementById("displaySearchResultsDiv");
+        searchResult.remove();
+        let searchDivTitle = document.querySelector(".searchDivTitle");
+        searchDivTitle.remove();
+        let hr = document.querySelector(".hr");
+        hr.remove();
+        let searchForm = document.getElementById ("searchForm");
+        searchForm.remove();
+        this.createBoutonAjouterUnLivre;
+       };
 
    handleClickSearch(event){
        event.preventDefault();
@@ -82,16 +97,14 @@ class DomManipulator {
         let googleBookAPI  = new GoogleBooksAPI();
         googleBookAPI.searchBook(titleValue, authorValue )
         .then((data) => {
-        //content.innerHTML = "<H2> Résultats de recherche <br/> <h2>"; // remplace "Ma poch'list" 
         if (data.totalItems === 0) {
+        
 
-        alert("Aucun livre n'a été trouvé");
+          alert("Aucun livre n'a été trouvé");
         }
         console.log (convertGoogleBooksToBooks (data.items))
         new DomManipulator().displaySearchResults(convertGoogleBooksToBooks (data.items)); 
-        //displaySearchResults(convertGoogleBooksToBooks (data.items)); 
-   
-   
+  
         console.log("Résultats de la recherche : ", data);
         
         })
@@ -102,49 +115,48 @@ class DomManipulator {
     }
 
     displaySearchResults(books) { 
-        
+     
+      const content = document.getElementById("content");
+
+      const searchDivTitle = document.createElement("h2");
+      searchDivTitle.classList.add("searchDivTitle");
+      searchDivTitle.innerText = "Résultats de recherche";
+      content.before(searchDivTitle);
+
+      const displaySearchResultsDiv = document.createElement("div");
+      displaySearchResultsDiv.id = "displaySearchResultsDiv"
+      //displaySearchResultsDiv.classList.add("book");
+      content.before(displaySearchResultsDiv); 
+
       const hr = document.createElement("hr")
       hr.classList.add("hr");
-      const content = document.getElementById("content");
-      content.after (hr);
+      content.before(hr);
       
-    
-      
+         
       books.forEach (book => {
-    
-      const bookcontainer = document.createElement("div");
-      bookcontainer.classList.add("book");
-    
-      const bookTitle = document.createElement("h3");
-      bookTitle.textContent = "Titre: " + book.title;
-      bookcontainer.appendChild(bookTitle);
-    
-      const idSpan = document.createElement("span");
-      idSpan.innerText = "Id: " + book.id;
-      bookcontainer.appendChild(idSpan);
-    
-      const bookAuthor = document.createElement("span");
-      bookAuthor.innerText = "Auteur: " + book.author;
-      bookcontainer.appendChild(bookAuthor);
-    
-      const bookDescriptionSpan = document.createElement("p");
-      bookDescriptionSpan.textContent = "Description:" + book.description;
-      bookcontainer.appendChild(bookDescriptionSpan);
-    
-      const bookIimage = document.createElement("img");
-      bookIimage.src = book.image;
-      bookcontainer.appendChild(bookIimage);
       
-      const bookmarkIcon = document.createElement("i");
-      bookmarkIcon.classList.add("fas", "fa-bookmark");
-      bookmarkIcon.addEventListener("click", BookMark.bookmarkIconOnClick.bind(this, book)) 
-      bookcontainer.appendChild(bookmarkIcon);
-    
-    
-      const content = document.getElementById("content");
-      content.before(bookcontainer); 
-    
+        const displayBookContainer = DisplayBook.displayBook(book);
+        displaySearchResultsDiv.appendChild(displayBookContainer);
+
+        const bookmarkIcon = document.createElement("i");
+        bookmarkIcon.classList.add("fas", "fa-bookmark");
+        bookmarkIcon.id = ("icon");
+        bookmarkIcon.title = "Ajouter à ma Poch'list";
+        bookmarkIcon.addEventListener("click", BookMark.bookmarkIconOnClick.bind(this, book)) 
+        displaySearchResultsDiv.appendChild(bookmarkIcon);
+
       })
     }
+   displayPochListe(){
+    //let pochListeTitle = document.getElementById("content").firstChild;
+    let pochListeContent = document.createElement("div");
+    pochListeContent.id = "pochListeContent";
+    let bookList = BookMark.getBooksFromSessionStorage();
+    let bookHtmlList = DisplayBook.displayBooks(bookList, false);
+    bookHtmlList.forEach(bookHtml=>{
+      pochListeContent.appendChild(bookHtml);
+    })
+    content.appendChild(pochListeContent);
+   }
 }
 
