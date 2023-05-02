@@ -11,24 +11,23 @@ class DomManipulator {
         const h2 = document.querySelector(".h2"); //récupère la balise h2
         h2.after(buttonAddBook); // Ajoute le bouton après la balise h2
         this.createFormular();
-
         buttonAddBook.addEventListener ("click", this.displayFormular);
         
    }
   createFormular(){
 
         const h2 = document.querySelector(".h2"); 
-        const searchForm = document.createElement("form");
+        const searchForm = document.createElement("form");//remplacer par div ?
         searchForm.id = "searchForm";
         searchForm.addEventListener("submit", this.handleClickSearch ) 
-        h2.appendChild(searchForm);
+        h2.after(searchForm);
         return searchForm;
     } 
+
+    
    displayFormular() {
 
-        let searchForm = document.getElementById ("searchForm");
-        const h2 = document.querySelector(".h2"); 
-        h2.after(searchForm); 
+        const searchForm = document.getElementById ("searchForm");
         let buttonAddBook= document.getElementById ("buttonAddBook")
         buttonAddBook.remove();
 
@@ -59,7 +58,8 @@ class DomManipulator {
         const searchBookBtn = document.createElement("button");
         searchBookBtn.textContent = "Rechercher";
         searchBookBtn.id = "searchBookBtn";
-        searchBookBtn.setAttribute("type","submit");
+        //searchBookBtn.setAttribute("type","button");
+        //searchBookBtn.addEventListener("click", this.handleClickSearch ) 
         searchForm.appendChild(searchBookBtn);
 
         const cancelBtn = document.createElement("button");
@@ -67,13 +67,18 @@ class DomManipulator {
         cancelBtn.id = "cancelBtn";
         cancelBtn.setAttribute("type", "button")// ligne rajoutée: permet de s'affranchir de event.preventDefault
         //cancelBtn.setAttribute("type","submit");
-        cancelBtn.addEventListener("click", this.cancelBtnClick);
-        cancelBtn.onclick = this.cancelBtnClick;
+        //cancelBtn.addEventListener("click", this.cancelBtnClick);
+        //cancelBtn.onclick = this.cancelBtnClick;
+        cancelBtn.addEventListener("click", ()=> {location.reload()}); //code de clodo, peut-être, mais ça marche !!!
         searchForm.appendChild(cancelBtn);
+
+        //return searchForm
 
         };
 
-    cancelBtnClick(event){ // CA NE FONCTIONNE PLUS DEPUIS QUE LE CODE EST ISOLE EN FONCTION
+      
+
+/*    cancelBtnClick(event){ // CA NE FONCTIONNE PLUS DEPUIS QUE LE CODE EST ISOLE EN FONCTION
         //location.reload();
         event.preventDefault();
         alert(" vous avez cliqué sur le boutton annuler");
@@ -87,9 +92,9 @@ class DomManipulator {
         searchForm.remove();
         this.createBoutonAjouterUnLivre;
        };
-
+*/
    handleClickSearch(event){
-       event.preventDefault();
+        event.preventDefault();
         const titleValue = document.getElementById("title").value.trim();
         const authorValue = document.getElementById("author").value.trim();
         if (titleValue !== "" && authorValue !== "") {
@@ -104,7 +109,8 @@ class DomManipulator {
         }
         console.log (convertGoogleBooksToBooks (data.items))
         new DomManipulator().displaySearchResults(convertGoogleBooksToBooks (data.items)); 
-  
+        
+
         console.log("Résultats de la recherche : ", data);
         
         })
@@ -125,7 +131,6 @@ class DomManipulator {
 
       const displaySearchResultsDiv = document.createElement("div");
       displaySearchResultsDiv.id = "displaySearchResultsDiv"
-      //displaySearchResultsDiv.classList.add("book");
       content.before(displaySearchResultsDiv); 
 
       const hr = document.createElement("hr")
@@ -135,9 +140,10 @@ class DomManipulator {
          
       books.forEach (book => {
       
-        const displayBookContainer = DisplayBook.displayBook(book);
+        const displayBookContainer = DisplayBook.displayBook(book); 
         displaySearchResultsDiv.appendChild(displayBookContainer);
 
+        // c'est de la triche, je sais, mais c'est parce que displayBook() ne fait pas son job de bookmark
         const bookmarkIcon = document.createElement("i");
         bookmarkIcon.classList.add("fas", "fa-bookmark");
         bookmarkIcon.id = ("icon");
@@ -148,15 +154,16 @@ class DomManipulator {
       })
     }
    displayPochListe(){
-    //let pochListeTitle = document.getElementById("content").firstChild;
-    let pochListeContent = document.createElement("div");
-    pochListeContent.id = "pochListeContent";
-    let bookList = BookMark.getBooksFromSessionStorage();
-    let bookHtmlList = DisplayBook.displayBooks(bookList, false);
-    bookHtmlList.forEach(bookHtml=>{
-      pochListeContent.appendChild(bookHtml);
+       let content = document.getElementById("content");
+       let pochListeContent = document.createElement("div");
+       pochListeContent.id = "pochListeContent";
+       let bookList = BookMark.getBooksFromSessionStorage();
+       let bookHtmlList = DisplayBook.displayBooks(bookList, false);
+       bookHtmlList.forEach(bookHtml=>{
+       pochListeContent.appendChild(bookHtml);
     })
-    content.appendChild(pochListeContent);
-   }
+        content.after(pochListeContent);
+
+    }
 }
 

@@ -22,7 +22,6 @@ class BookMark {
       }
       
     static  addBookToReadingList(book) {
-
         const bookListItem = document.createElement("div");
         const displayBookContainer = DisplayBook.displayBook(book);
         bookListItem.appendChild(displayBookContainer);

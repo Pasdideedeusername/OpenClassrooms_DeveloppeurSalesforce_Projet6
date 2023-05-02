@@ -17,7 +17,7 @@ class DisplayBook{
         bookmarkIcon.title = "Ajouter à ma Poch'list";
         bookmarkIcon.addEventListener("click", BookMark.bookmarkIconOnClick.bind(this, book)) 
         
-        }else{
+        }else{ //if not searched, then in Ma Pochliste
             bookmarkIcon.classList.add("fas", "fa-trash");
             bookmarkIcon.title = "Retirer de ma Poch'list";
             bookmarkIcon.addEventListener("click", BookMark.trashIconOnClick.bind(this, book))  
