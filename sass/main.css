@@ -60,4 +60,20 @@ input {
   border: 1px solid;
   background: gray;
   text-align: left;
+}
+
+.list-book {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+@media (min-width: 600px) {
+  .list-book {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 1024px) {
+  .list-book {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }/*# sourceMappingURL=main.css.map */
