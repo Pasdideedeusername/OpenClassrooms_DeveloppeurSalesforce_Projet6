@@ -121,35 +121,32 @@ class DomManipulator {
     }
 
     displaySearchResults(books) { 
-     
+      
+      let divSearchResult = document.getElementById("displaySearchResultsDiv");
+      if (divSearchResult){
+        divSearchResult.remove();
+      }
       const content = document.getElementById("content");
 
-      const searchDivTitle = document.createElement("h2");
-      searchDivTitle.classList.add("searchDivTitle");
-      searchDivTitle.innerText = "Résultats de recherche";
-      content.before(searchDivTitle);
-
       const displaySearchResultsDiv = document.createElement("div");
-      displaySearchResultsDiv.id = "displaySearchResultsDiv"
+      displaySearchResultsDiv.id = "displaySearchResultsDiv";
+      displaySearchResultsDiv.classList.add("list-book");
       content.before(displaySearchResultsDiv); 
 
       const hr = document.createElement("hr")
       hr.classList.add("hr");
-      content.before(hr);
-      
-         
+      displaySearchResultsDiv.appendChild(hr);
+
+      const searchDivTitle = document.createElement("h2");
+      searchDivTitle.classList.add("searchDivTitle");
+      searchDivTitle.innerText = "Résultats de recherche";
+      displaySearchResultsDiv.appendChild(searchDivTitle);
+  
+               
       books.forEach (book => {
       
-        const displayBookContainer = DisplayBook.displayBook(book); 
+        const displayBookContainer = DisplayBook.displayBook(book, true); 
         displaySearchResultsDiv.appendChild(displayBookContainer);
-
-        // c'est de la triche, je sais, mais c'est parce que displayBook() ne fait pas son job de bookmark
-        const bookmarkIcon = document.createElement("i");
-        bookmarkIcon.classList.add("fas", "fa-bookmark");
-        bookmarkIcon.id = ("icon");
-        bookmarkIcon.title = "Ajouter à ma Poch'list";
-        bookmarkIcon.addEventListener("click", BookMark.bookmarkIconOnClick.bind(this, book)) 
-        displaySearchResultsDiv.appendChild(bookmarkIcon);
 
       })
     }
@@ -157,6 +154,8 @@ class DomManipulator {
        let content = document.getElementById("content");
        let pochListeContent = document.createElement("div");
        pochListeContent.id = "pochListeContent";
+       pochListeContent.classList.add("list-book");
+
        let bookList = BookMark.getBooksFromSessionStorage();
        let bookHtmlList = DisplayBook.displayBooks(bookList, false);
        bookHtmlList.forEach(bookHtml=>{

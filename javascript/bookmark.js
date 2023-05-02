@@ -23,22 +23,18 @@ class BookMark {
       
     static  addBookToReadingList(book) {
         const bookListItem = document.createElement("div");
-        const displayBookContainer = DisplayBook.displayBook(book);
+        const displayBookContainer = DisplayBook.displayBook(book, false);
         bookListItem.appendChild(displayBookContainer);
 
-        const trashIcon = document.createElement("i");
-        trashIcon.classList.add("fas", "fa-trash");
-        trashIcon.id = ("trashIcon");
-        trashIcon.title = "retirer de ma Poch'list";
-        //trashIcon.addEventListener("click", trashIconOnClick.bind(this, book)) 
-        bookListItem.appendChild(trashIcon);
-        
+              
         const content = document.getElementById("content");
         content.appendChild(bookListItem);
        
       } 
-      static trashIconOnClick(book) {
-       bookListItem = document.getElementById();
+      static trashIconOnClick(book) { // elle est pas finie celle là ?
+       let bookToRemove = document.getElementById(book.id);
+       bookToRemove.remove();
+       sessionStorage.removeItem(book.id);
       }
 
       static getBooksFromSessionStorage(){

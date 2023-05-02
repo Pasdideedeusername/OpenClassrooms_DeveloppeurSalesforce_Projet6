@@ -21,9 +21,11 @@ class DisplayBook{
             bookmarkIcon.classList.add("fas", "fa-trash");
             bookmarkIcon.title = "Retirer de ma Poch'list";
             bookmarkIcon.addEventListener("click", BookMark.trashIconOnClick.bind(this, book))  
+            displayBookContainer.id = book.id;
+
         }
-        
-        
+        displayBookContainer.appendChild(bookmarkIcon);
+
       
         const idSpan = document.createElement("span");
         idSpan.innerText = "Id:  " + book.id;
