@@ -126,12 +126,11 @@ class DomManipulator {
       if (divSearchResult){
         divSearchResult.remove();
       }
-      const content = document.getElementById("content");
+      const searchForm = document.getElementById ("searchForm");
 
       const displaySearchResultsDiv = document.createElement("div");
       displaySearchResultsDiv.id = "displaySearchResultsDiv";
-      displaySearchResultsDiv.classList.add("list-book");
-      content.before(displaySearchResultsDiv); 
+      searchForm.after(displaySearchResultsDiv); 
 
       const hr = document.createElement("hr")
       hr.classList.add("hr");
@@ -142,11 +141,16 @@ class DomManipulator {
       searchDivTitle.innerText = "Résultats de recherche";
       displaySearchResultsDiv.appendChild(searchDivTitle);
   
+      const displaySearchedBooksOnly = document.createElement("div");
+      displaySearchedBooksOnly.id = "displaySearchedBooksOnly";
+      displaySearchedBooksOnly.classList.add("list-book");
+
+      displaySearchResultsDiv.appendChild(displaySearchedBooksOnly); 
                
       books.forEach (book => {
       
         const displayBookContainer = DisplayBook.displayBook(book, true); 
-        displaySearchResultsDiv.appendChild(displayBookContainer);
+        displaySearchedBooksOnly.appendChild(displayBookContainer);
 
       })
     }
@@ -154,14 +158,14 @@ class DomManipulator {
        let content = document.getElementById("content");
        let pochListeContent = document.createElement("div");
        pochListeContent.id = "pochListeContent";
-       pochListeContent.classList.add("list-book");
+       pochListeContent.classList.add("poch-list-books");
+       content.after(pochListeContent);
 
        let bookList = BookMark.getBooksFromSessionStorage();
        let bookHtmlList = DisplayBook.displayBooks(bookList, false);
        bookHtmlList.forEach(bookHtml=>{
        pochListeContent.appendChild(bookHtml);
     })
-        content.after(pochListeContent);
 
     }
 }

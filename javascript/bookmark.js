@@ -31,7 +31,7 @@ class BookMark {
         content.appendChild(bookListItem);
        
       } 
-      static trashIconOnClick(book) { // elle est pas finie celle là ?
+      static trashIconOnClick(book) { 
        let bookToRemove = document.getElementById(book.id);
        bookToRemove.remove();
        sessionStorage.removeItem(book.id);
