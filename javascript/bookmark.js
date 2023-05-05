@@ -6,7 +6,7 @@ class BookMark {
        console.log(book);
         if (!BookMark.isBookInSessionStorage(book.id)) {
           BookMark.addBookToSessionStorage(book);
-          BookMark.addBookToReadingList(book);
+          domManipulator.displayPochListe();
         } else {
           alert("Vous ne pouvez ajouter deux fois le même livre");
         }
@@ -21,16 +21,7 @@ class BookMark {
         sessionStorage.setItem(book.id, JSON.stringify(book));
       }
       
-    static  addBookToReadingList(book) {
-        const bookListItem = document.createElement("div");
-        const displayBookContainer = DisplayBook.displayBook(book, false);
-        bookListItem.appendChild(displayBookContainer);
 
-              
-        const content = document.getElementById("content");
-        content.appendChild(bookListItem);
-       
-      } 
       static trashIconOnClick(book) { 
        let bookToRemove = document.getElementById(book.id);
        bookToRemove.remove();

@@ -7,11 +7,14 @@ class DisplayBook{
         const displayBookContainer = document.createElement("div");
         displayBookContainer.classList.add("book");
 
-        const bookTitle = document.createElement("h3");
+        const bookTitle = document.createElement("span");
         bookTitle.textContent = "Titre:  " + book.title;
+        bookTitle.id = "bookTitle";
         displayBookContainer.appendChild(bookTitle);
 
         const bookmarkIcon = document.createElement("i");
+        bookmarkIcon.id = "bookMarkIcon";
+
         if (isSearched){
         bookmarkIcon.classList.add("fas", "fa-bookmark");
         bookmarkIcon.title = "Ajouter à ma Poch'list";
@@ -29,19 +32,23 @@ class DisplayBook{
       
         const idSpan = document.createElement("span");
         idSpan.innerText = "Id:  " + book.id;
+        idSpan.id = "idSpan";
         displayBookContainer.appendChild(idSpan);
       
-        const bookAuthor = document.createElement("span");
+        const bookAuthor = document.createElement("p");
         bookAuthor.innerText = "Auteur:  " + book.author;
+        bookAuthor.id = "bookAuthor";
         displayBookContainer.appendChild(bookAuthor);
       
         const bookDescriptionSpan = document.createElement("p");
         bookDescriptionSpan.textContent = "Description:  " + book.description;
+        bookDescriptionSpan.id = "bookDescriptionSpan";
         displayBookContainer.appendChild(bookDescriptionSpan);
       
-        const bookIimage = document.createElement("img");
-        bookIimage.src = book.image;
-        displayBookContainer.appendChild(bookIimage);
+        const bookImage = document.createElement("img");
+        bookImage.src = book.image;
+        bookImage.id = "bookImage";
+        displayBookContainer.appendChild(bookImage);
 
         return displayBookContainer;
         }
@@ -52,6 +59,7 @@ class DisplayBook{
                 displayBookContainerList.push(DisplayBook.displayBook(book,isSearched));
         
             });
+
         return displayBookContainerList;
         }
 

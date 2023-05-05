@@ -1,15 +1,19 @@
 class DomManipulator {
 
-   constructor(){}
+  constructor(){}
 
   createBoutonAjouterUnLivre(){
     
-        const buttonAddBook = document.createElement("button"); // Crée un nouvel élément bouton
-        buttonAddBook.textContent = "Ajouter un livre"; // Définit le texte du bouton
+        const addBookDiv = document.createElement("div");
+        addBookDiv.id = "addBookDiv";
+
+        const buttonAddBook = document.createElement("button"); 
+        buttonAddBook.textContent = "Ajouter un livre"; 
         buttonAddBook.id = "buttonAddBook";
     
-        const h2 = document.querySelector(".h2"); //récupère la balise h2
-        h2.after(buttonAddBook); // Ajoute le bouton après la balise h2
+        const h2 = document.querySelector(".h2"); 
+        h2.after(addBookDiv); 
+        addBookDiv.appendChild(buttonAddBook); 
         this.createFormular();
         buttonAddBook.addEventListener ("click", this.displayFormular);
         
@@ -17,7 +21,7 @@ class DomManipulator {
   createFormular(){
 
         const h2 = document.querySelector(".h2"); 
-        const searchForm = document.createElement("form");//remplacer par div ?
+        const searchForm = document.createElement("form");
         searchForm.id = "searchForm";
         searchForm.addEventListener("submit", this.handleClickSearch ) 
         h2.after(searchForm);
@@ -58,41 +62,22 @@ class DomManipulator {
         const searchBookBtn = document.createElement("button");
         searchBookBtn.textContent = "Rechercher";
         searchBookBtn.id = "searchBookBtn";
-        //searchBookBtn.setAttribute("type","button");
-        //searchBookBtn.addEventListener("click", this.handleClickSearch ) 
         searchForm.appendChild(searchBookBtn);
 
         const cancelBtn = document.createElement("button");
         cancelBtn.textContent = "Annuler";
         cancelBtn.id = "cancelBtn";
         cancelBtn.setAttribute("type", "button")// ligne rajoutée: permet de s'affranchir de event.preventDefault
-        //cancelBtn.setAttribute("type","submit");
-        //cancelBtn.addEventListener("click", this.cancelBtnClick);
-        //cancelBtn.onclick = this.cancelBtnClick;
-        cancelBtn.addEventListener("click", ()=> {location.reload()}); //code de clodo, peut-être, mais ça marche !!!
+        cancelBtn.addEventListener("click", ()=> {
+        document.getElementById("searchForm")?.remove();
+        document.getElementById("displaySearchResultsDiv")?.remove();
+        new DomManipulator().createBoutonAjouterUnLivre();
+        });
         searchForm.appendChild(cancelBtn);
-
-        //return searchForm
 
         };
 
-      
-
-/*    cancelBtnClick(event){ // CA NE FONCTIONNE PLUS DEPUIS QUE LE CODE EST ISOLE EN FONCTION
-        //location.reload();
-        event.preventDefault();
-        alert(" vous avez cliqué sur le boutton annuler");
-        let searchResult = document.getElementById("displaySearchResultsDiv");
-        searchResult.remove();
-        let searchDivTitle = document.querySelector(".searchDivTitle");
-        searchDivTitle.remove();
-        let hr = document.querySelector(".hr");
-        hr.remove();
-        let searchForm = document.getElementById ("searchForm");
-        searchForm.remove();
-        this.createBoutonAjouterUnLivre;
-       };
-*/
+ 
    handleClickSearch(event){
         event.preventDefault();
         const titleValue = document.getElementById("title").value.trim();
@@ -155,6 +140,11 @@ class DomManipulator {
       })
     }
    displayPochListe(){
+       let existingPochList = document.getElementById("pochListeContent");
+       if (existingPochList){
+        existingPochList.remove();
+       } 
+
        let content = document.getElementById("content");
        let pochListeContent = document.createElement("div");
        pochListeContent.id = "pochListeContent";
