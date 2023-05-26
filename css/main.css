@@ -1,83 +1,98 @@
-@charset "UTF-8";
-* {
-  text-align: center;
-}
-
-body {
-  background-color: lightseagreen;
-  font-family: "Dancing Script", cursive;
-}
-
-h1 {
-  background-color: white;
-}
-
-h2 {
-  text-shadow: 3px 3px 3px grey;
-}
-
-#searchForm {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-label, input {
-  width: 100%;
-  height: 30px;
-  margin-top: 5px;
-  text-align: left;
-}
-
-input {
-  background-color: aliceblue;
-}
-
-#searchBookBtn, #cancelBtn {
-  align-items: center;
-}
-
-#searchBookBtn, #cancelBtn, #buttonAddBook {
-  width: 130px;
-  margin-top: 10px;
-  box-shadow: 3px 3px 3px;
-}
-
-.book {
-  width: 300px;
-  height: 300px;
-  display: flex;
-  flex-direction: raw;
-  background-color: whitesmoke;
-  margin: 50px;
-}
-
-.book :hover { /* JE N'EN VEUX PAS ET POURTANT CA MARCHE !!!*/
-  background-color: goldenrod;
-  cursor: pointer; /* ça je veux le mettre sur les bouttons et l'icon mais ça ne marche pas*/
-  transform: scale(1.5);
-}
-
-#bookmarkIcon:hover { /* CA NE MARCHE PAS !!!!*/
-  content: "Ajouter à ma Poch'liste";
-  cursor: pointer;
-  color: red;
-}
-
-/*# sourceMappingURL=main.css.map */
-
-.list-book, .poch-list-books {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 5px;
-}
-@media (min-width: 600px) {
-  .list-book, .poch-list-books {
-    grid-template-columns: 1fr 1fr;
+h2, .title {
+    text-align: center;
   }
-}
-@media (min-width: 1024px) {
-  .list-book, .poch-list-books {
+  
+  body {
+    background-color: lightseagreen;
+    font-family: "Instrument Serif";
+  }
+  
+  span {
+    font-weight: bold;
+  }
+  
+  h1 {
+    background-color: white;
+  }
+  
+  h2 {
+    text-shadow: 3px 3px 3px grey;
+  }
+  
+  #searchForm {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+  
+  label, input {
+    width: 100%;
+    height: 30px;
+    margin-top: 5px;
+    text-align: left;
+  }
+  
+  input {
+    background-color: aliceblue;
+  }
+  
+  #addBookDiv {
+    text-align: center;
+  }
+  
+  #searchBookBtn, #cancelBtn, #buttonAddBook {
+    width: 130px;
+    margin-top: 10px;
+    box-shadow: 3px 3px 3px;
+    text-align: center;
+  }
+  
+  #bookMarkIcon:hover, #searchBookBtn:hover, #cancelBtn:hover, #buttonAddBook:hover {
+    cursor: pointer;
+  }
+  
+  #bookMarkIcon {
+    grid-column-start: 3;
+    text-align: right;
+  }
+  
+  .book {
+    height: 420px;
+    border: 1px solid;
+    background: lightblue;
+    padding: 10px;
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 3fr 9fr;
   }
-}/*# sourceMappingURL=main.css.map */
+  
+  #bookTitle {
+    grid-column: span 2;
+  }
+  
+  #idSpan, #bookAuthor, #bookDescriptionSpan {
+    grid-column: span 3;
+    text-align: left;
+  }
+  
+  #bookImage {
+    grid-column: 2;
+    grid-row: 5;
+    text-align: center;
+  }
+  
+  .list-book, .poch-list-books {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  @media (min-width: 600px) {
+    .list-book, .poch-list-books {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 1024px) {
+    .list-book, .poch-list-books {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }/*# sourceMappingURL=main.css.map */
